@@ -1,3 +1,4 @@
+"use client";
 import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { Overview } from "@/components/overview";
 import { RecentSales } from "@/components/recent-sales";
@@ -11,15 +12,20 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSession } from "next-auth/react";
 
-export default function page() {
+export default function Page() {
+  const { data: session } = useSession();
+
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back 👋
-          </h2>
+          {session && (
+            <h2 className="text-3xl font-bold tracking-tight">
+              Hi {session.user?.name}, Welcome back 👋
+            </h2>
+          )}
           <div className="hidden md:flex items-center space-x-2">
             <CalendarDateRangePicker />
             <Button>Download</Button>
