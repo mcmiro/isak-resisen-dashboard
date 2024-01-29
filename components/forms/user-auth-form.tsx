@@ -1,4 +1,5 @@
 "use client";
+import { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,15 +11,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import GoogleSignInButton from "../github-auth-button";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Enter a valid email address" }),
+  username: z.string(),
+  password: z.string().min(4, { message: "Enter a password" }),
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -26,40 +26,64 @@ type UserFormValue = z.infer<typeof formSchema>;
 export default function UserAuthForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const [loading, setLoading] = useState(false);
+
   const defaultValues = {
-    email: "demo@gmail.com",
+    username: "",
+    password: "",
   };
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
-  const onSubmit = async (data: UserFormValue) => {
-    signIn("credentials", {
-      email: data.email,
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    const loginStatus = await signIn("credentials", {
+      username: username,
+      password: password,
       callbackUrl: callbackUrl ?? "/dashboard",
+      //redirect: false,
     });
+
+    console.log("loginStatus", loginStatus);
   };
 
   return (
     <>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-2 w-full"
-        >
+        <form onSubmit={onSubmit} className="space-y-2 w-full">
           <FormField
             control={form.control}
-            name="email"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
-                    placeholder="Enter your email..."
-                    disabled={loading}
+                    type="text"
+                    placeholder="Enter your username..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Enter your password..."
                     {...field}
                   />
                 </FormControl>
@@ -68,22 +92,11 @@ export default function UserAuthForm() {
             )}
           />
 
-          <Button disabled={loading} className="ml-auto w-full" type="submit">
+          <Button className="ml-auto w-full" type="submit">
             Continue With Email
           </Button>
         </form>
       </Form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <GoogleSignInButton />
     </>
   );
 }
