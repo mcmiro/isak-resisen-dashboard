@@ -2,15 +2,10 @@
 import { DashboardNav } from "@/components/dashboard-nav";
 import { navItems } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { User } from "@/types/user";
 import { signOut } from "next-auth/react";
 import { Icons } from "@/components/icons";
 
-type UserInfoProps = {
-  user: User;
-};
-
-export default function Sidebar({ user }: UserInfoProps) {
+export default function Sidebar() {
   const handleLogout = async () => {
     await signOut();
   };

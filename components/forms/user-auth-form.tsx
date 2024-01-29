@@ -43,14 +43,12 @@ export default function UserAuthForm() {
     const username = formData.get("username");
     const password = formData.get("password");
 
-    const loginStatus = await signIn("credentials", {
+    await signIn("credentials", {
       username: username,
       password: password,
       callbackUrl: callbackUrl ?? "/dashboard",
       //redirect: false,
     });
-
-    console.log("loginStatus", loginStatus);
   };
 
   return (
