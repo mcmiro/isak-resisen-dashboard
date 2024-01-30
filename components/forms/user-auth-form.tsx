@@ -1,6 +1,8 @@
 "use client";
 import { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
@@ -14,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   username: z.string(),
@@ -24,8 +26,8 @@ const formSchema = z.object({
 type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+  const router = useRouter();
+  const { toast } = useToast();
 
   const defaultValues = {
     username: "",
@@ -43,12 +45,22 @@ export default function UserAuthForm() {
     const username = formData.get("username");
     const password = formData.get("password");
 
-    await signIn("credentials", {
+    const loginData = await signIn("credentials", {
       username: username,
       password: password,
-      callbackUrl: callbackUrl ?? "/dashboard",
-      //redirect: false,
+      redirect: false,
     });
+
+    if (loginData?.ok) {
+      router.push("/dashboard");
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Authentifizierung nicht erfolgreich",
+        description:
+          "Oops! Es gab ein Problem mit Ihren Anmeldedaten. Bitte überprüfen Sie Benutzername und Passwort und versuchen Sie es erneut. Prost auf eine erfolgreiche Anmeldung beim nächsten Versuch!",
+      });
+    }
   };
 
   return (
