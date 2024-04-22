@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/breadcrumb";
-import { ProductForm } from "@/components/forms/product-form";
+import { ClientForm } from "@/components/forms/client-form";
 import React from "react";
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
-      <ProductForm
+      <ClientForm
         categories={[
           { _id: "shirts", name: "shirts" },
           { _id: "pants", name: "pants" },

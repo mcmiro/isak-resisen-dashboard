@@ -2,6 +2,7 @@ import { getServerSession, type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { userService } from "@/server/services/userService";
 
+let jwt: string | undefined = "";
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -15,9 +16,11 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token, user }) {
       session.user = session.user || {};
-
       session.user.id = token.userId;
-      return session;
+
+      const sessionWithJwt = { ...session, jwt };
+
+      return sessionWithJwt;
     },
   },
   providers: [
@@ -38,6 +41,9 @@ export const authOptions: NextAuthOptions = {
           username,
           password,
         );
+
+        // If authenticated user exists, store it in token for access in session callback
+        jwt = authenticatedUser?.jwt;
 
         // Return the authenticated user or null
         return authenticatedUser || null;

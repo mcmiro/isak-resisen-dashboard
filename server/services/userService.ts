@@ -1,4 +1,5 @@
 import axios from "axios";
+import { cookies } from "next/headers";
 
 export const userService = {
   authenticate,
@@ -8,6 +9,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  jwt: string;
 }
 
 async function authenticate(
@@ -31,6 +33,7 @@ async function authenticate(
       id: data.user.id,
       name: data.user.username,
       email: data.user.email,
+      jwt: data.jwt,
     };
 
     return user;

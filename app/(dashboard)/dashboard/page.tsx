@@ -13,9 +13,16 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function Page() {
   const { data: session } = useSession();
+  useEffect(() => {
+    //@ts-ignore
+    session?.jwt && localStorage.setItem("jwt", session.jwt);
+    //@ts-ignore
+    console.log("session.jwt", session.jwt);
+  }, []);
 
   return (
     <ScrollArea className="h-full">

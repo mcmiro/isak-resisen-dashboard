@@ -1,93 +1,60 @@
 import { NavItem } from "@/types";
 
-export type User = {
+export type ClientModel = {
   id: number;
   name: string;
-  company: string;
-  role: string;
-  verified: boolean;
-  status: string;
 };
-export const users: User[] = [
+
+export type DriverModel = {
+  id: number;
+  name: string;
+};
+
+export type VehicleModel = {
+  id: number;
+  name: string;
+};
+
+export const clients: ClientModel[] = [
   {
     id: 1,
-    name: "Candice Schiner",
-    company: "Dell",
-    role: "Frontend Developer",
-    verified: false,
-    status: "Active",
+    name: "David",
   },
   {
     id: 2,
     name: "John Doe",
-    company: "TechCorp",
-    role: "Backend Developer",
-    verified: true,
-    status: "Active",
   },
   {
     id: 3,
     name: "Alice Johnson",
-    company: "WebTech",
-    role: "UI Designer",
-    verified: true,
-    status: "Active",
   },
   {
     id: 4,
     name: "David Smith",
-    company: "Innovate Inc.",
-    role: "Fullstack Developer",
-    verified: false,
-    status: "Inactive",
   },
   {
     id: 5,
     name: "Emma Wilson",
-    company: "TechGuru",
-    role: "Product Manager",
-    verified: true,
-    status: "Active",
   },
   {
     id: 6,
     name: "James Brown",
-    company: "CodeGenius",
-    role: "QA Engineer",
-    verified: false,
-    status: "Active",
   },
   {
     id: 7,
     name: "Laura White",
-    company: "SoftWorks",
-    role: "UX Designer",
-    verified: true,
-    status: "Active",
   },
   {
     id: 8,
     name: "Michael Lee",
-    company: "DevCraft",
-    role: "DevOps Engineer",
-    verified: false,
-    status: "Active",
   },
   {
     id: 9,
     name: "Olivia Green",
-    company: "WebSolutions",
-    role: "Frontend Developer",
-    verified: true,
-    status: "Active",
   },
   {
     id: 10,
     name: "Robert Taylor",
-    company: "DataTech",
-    role: "Data Analyst",
-    verified: false,
-    status: "Active",
   },
 ];
 
@@ -104,24 +71,30 @@ export type Employee = {
   state: string;
   country: string;
   zipcode: string;
-  longitude?: number; // Optional field
-  latitude?: number; // Optional field
+  longitude?: number;
+  latitude?: number;
   job: string;
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
 export const navItems: NavItem[] = [
   {
-    title: "Dashboard",
+    title: "Home",
     href: "/dashboard",
     icon: "dashboard",
-    label: "Dashboard",
+    label: "Home",
   },
   {
-    title: "User",
-    href: "/dashboard/user",
+    title: "Kunden",
+    href: "/dashboard/clients",
     icon: "user",
-    label: "user",
+    label: "kunden",
+  },
+  {
+    title: "Chauffeure",
+    href: "/dashboard/drivers",
+    icon: "driver",
+    label: "kunden",
   },
   {
     title: "Employee",
@@ -136,9 +109,9 @@ export const navItems: NavItem[] = [
     label: "profile",
   },
   {
-    title: "Kanban",
-    href: "/dashboard/kanban",
-    icon: "kanban",
-    label: "kanban",
+    title: "Fahrzeuge",
+    href: "/dashboard/vehicles",
+    icon: "bus",
+    label: "fahrzeuge",
   },
 ];
