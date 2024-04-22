@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { VehicleModel } from "@/constants/data";
+import { VehicleModel } from "@/types/vehicle";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import ApiProvider from "@/lib/axios-instance";
 import { useRouter } from "next/navigation";

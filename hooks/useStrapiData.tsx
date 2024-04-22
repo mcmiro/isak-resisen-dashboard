@@ -33,7 +33,6 @@ const useStrapiData = () => {
 
       return flatStrapiObject(response.data.data) as T;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }

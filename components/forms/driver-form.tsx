@@ -19,7 +19,7 @@ import { Heading } from "@/components/ui/heading";
 import { useToast } from "../ui/use-toast";
 import ApiProvider from "@/lib/axios-instance";
 import useStrapiData from "@/hooks/useStrapiData";
-import { DriverModel } from "@/constants/data";
+import { DriverModel } from "@/types/driver";
 
 const formSchema = z.object({
   name: z

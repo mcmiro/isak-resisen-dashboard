@@ -36,16 +36,13 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
-        // Assuming userService.authenticate returns a User or undefined
         const authenticatedUser = await userService.authenticate(
           username,
           password,
         );
 
-        // If authenticated user exists, store it in token for access in session callback
         jwt = authenticatedUser?.jwt;
 
-        // Return the authenticated user or null
         return authenticatedUser || null;
       },
     }),

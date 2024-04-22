@@ -27,7 +27,6 @@ import {
   Twitter,
   User,
   User2Icon,
-  UserX2Icon,
   X,
 } from "lucide-react";
 
@@ -48,7 +47,6 @@ export const Icons = {
   chevronRight: ChevronRight,
   trash: Trash,
   driver: ImUserTie,
-  employee: UserX2Icon,
   post: FileText,
   page: File,
   media: Image,

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import BreadCrumb from "@/components/breadcrumb";
 import { Client } from "@/components/tables/client-tables/client";
-import { ClientModel } from "@/constants/data";
+import { ClientModel } from "@/types/client";
 import useStrapiData from "@/hooks/useStrapiData";
 
 const breadcrumbItems = [{ title: "Kunden", link: "/dashboard/clients" }];

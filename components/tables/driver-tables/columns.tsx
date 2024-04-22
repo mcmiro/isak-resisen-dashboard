@@ -1,7 +1,7 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { ClientModel } from "@/constants/data";
+import { ClientModel } from "@/types/client";
 
 export const columns: ColumnDef<ClientModel>[] = [
   {

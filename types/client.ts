@@ -1,4 +1,4 @@
-export type UserModel = {
+export type ClientModel = {
   id: number;
   name: string;
 };

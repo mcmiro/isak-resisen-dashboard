@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import BreadCrumb from "@/components/breadcrumb";
 import { Vehicle } from "@/components/tables/vehicle-tables/vehicle";
-import { VehicleModel } from "@/constants/data";
+import { VehicleModel } from "@/types/vehicle";
 import useStrapiData from "@/hooks/useStrapiData";
 
 const breadcrumbItems = [{ title: "Fahrzeuge", link: "/dashboard/vehicles" }];

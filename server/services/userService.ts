@@ -1,5 +1,4 @@
 import axios from "axios";
-import { cookies } from "next/headers";
 
 export const userService = {
   authenticate,
@@ -38,7 +37,6 @@ async function authenticate(
 
     return user;
   } catch (error) {
-    console.error("Authentication failed:", error);
     throw error;
   }
 }
