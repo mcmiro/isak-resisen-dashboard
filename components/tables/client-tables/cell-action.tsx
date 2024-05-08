@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ClientModel } from "@/types/client";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import ApiProvider from "@/lib/axios-instance";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useClient from "@/hooks/use-client";
 
 interface CellActionProps {
   data: ClientModel;
@@ -22,15 +22,18 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { deleteClient } = useClient();
 
   const onConfirm = async () => {
-    await ApiProvider.delete(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/clients/${data.id}`,
-    ).then((response) => {
-      if (response) {
-        location.reload();
-      }
-    });
+    setLoading(true);
+    try {
+      await deleteClient(data.id);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      location.reload();
+      setLoading(false);
+    }
   };
 
   return (

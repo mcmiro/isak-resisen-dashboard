@@ -1,26 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BreadCrumb from "@/components/breadcrumb";
 import { Vehicle } from "@/components/tables/vehicle-tables/vehicle";
-import { VehicleModel } from "@/types/vehicle";
-import useStrapiData from "@/hooks/useStrapiData";
+import useVehicle from "@/hooks/use-vehicle";
 
 const breadcrumbItems = [{ title: "Fahrzeuge", link: "/dashboard/vehicles" }];
 export default function Page() {
-  const { fetchData } = useStrapiData();
-  const [vehicles, setVehicles] = useState<VehicleModel[]>();
+  const { getVehicles, vehicles } = useVehicle();
 
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const fetchedData: VehicleModel[] = await fetchData("/vehicles");
-        setVehicles(fetchedData);
-      } catch (error) {
-        throw error;
-      }
-    };
-
-    fetchDataAsync();
+    getVehicles();
   }, []);
 
   return (

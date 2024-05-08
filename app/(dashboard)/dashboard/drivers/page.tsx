@@ -1,26 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BreadCrumb from "@/components/breadcrumb";
 import { Driver } from "@/components/tables/driver-tables/driver";
-import { DriverModel } from "@/types/driver";
-import useStrapiData from "@/hooks/useStrapiData";
+import useDriver from "@/hooks/use-driver";
 
 const breadcrumbItems = [{ title: "Chauffeure", link: "/dashboard/drivers" }];
 export default function Page() {
-  const { fetchData } = useStrapiData();
-  const [drivers, setDrivers] = useState<DriverModel[]>();
+  const { getDrivers, drivers } = useDriver();
 
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const fetchedData: DriverModel[] = await fetchData("/drivers");
-        setDrivers(fetchedData);
-      } catch (error) {
-        throw error;
-      }
-    };
-
-    fetchDataAsync();
+    getDrivers();
   }, []);
 
   return (

@@ -1,26 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BreadCrumb from "@/components/breadcrumb";
 import { Client } from "@/components/tables/client-tables/client";
-import { ClientModel } from "@/types/client";
-import useStrapiData from "@/hooks/useStrapiData";
+import useClient from "@/hooks/use-client";
 
 const breadcrumbItems = [{ title: "Kunden", link: "/dashboard/clients" }];
 export default function Page() {
-  const { fetchData } = useStrapiData();
-  const [clients, setClients] = useState<ClientModel[]>();
+  const { getClients, clients } = useClient();
 
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const fetchedData: ClientModel[] = await fetchData("/clients");
-        setClients(fetchedData);
-      } catch (error) {
-        throw error;
-      }
-    };
-
-    fetchDataAsync();
+    getClients();
   }, []);
 
   return (

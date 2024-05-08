@@ -1,6 +1,7 @@
 "use client";
 import { AxiosResponse } from "axios";
 import ApiProvider from "@/lib/axios-instance";
+import { OrderModel } from "@/types/order";
 
 const useStrapiData = () => {
   const flatStrapiObject = (data: any) => {
@@ -37,9 +38,21 @@ const useStrapiData = () => {
     }
   }
 
+  const handleOrderForStrapi = (order: OrderModel) => {
+    let parsedOrder = { ...order };
+    for (const [key, value] of Object.entries(order)) {
+      if (key === "date") {
+        const dbDate = value.toString().split(".").reverse().join("-");
+        parsedOrder.date = dbDate;
+      }
+    }
+    return parsedOrder;
+  };
+
   return {
     flatStrapiObject,
     fetchData,
+    handleOrderForStrapi,
   };
 };
 

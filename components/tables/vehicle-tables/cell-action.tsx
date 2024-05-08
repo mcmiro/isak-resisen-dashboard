@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { VehicleModel } from "@/types/vehicle";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import ApiProvider from "@/lib/axios-instance";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useVehicle from "@/hooks/use-vehicle";
 
 interface CellActionProps {
   data: VehicleModel;
@@ -22,15 +22,18 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { deleteVehicle } = useVehicle();
 
   const onConfirm = async () => {
-    await ApiProvider.delete(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/vehicles/${data.id}`,
-    ).then((response) => {
-      if (response) {
-        location.reload();
-      }
-    });
+    setLoading(true);
+    try {
+      await deleteVehicle(data.id);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      location.reload();
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +52,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Aktion</DropdownMenuLabel>
-
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/vehicles/${data.id}`)}
           >

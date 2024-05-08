@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DriverModel } from "@/types/driver";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import ApiProvider from "@/lib/axios-instance";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useDriver from "@/hooks/use-driver";
 
 interface CellActionProps {
   data: DriverModel;
@@ -22,15 +22,18 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { deleteDriver } = useDriver();
 
   const onConfirm = async () => {
-    await ApiProvider.delete(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/drivers/${data.id}`,
-    ).then((response) => {
-      if (response) {
-        location.reload();
-      }
-    });
+    setLoading(true);
+    try {
+      await deleteDriver(data.id);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      location.reload();
+      setLoading(false);
+    }
   };
 
   return (

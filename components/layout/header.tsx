@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { MobileSidebar } from "./mobile-sidebar";
 import { UserNav } from "./user-nav";
 import Link from "next/link";
-import Image from "next/image";
+import Logo from "@/components/ui/logo";
 
 export default function Header() {
   return (
@@ -12,12 +12,7 @@ export default function Header() {
         <div className="hidden lg:block">
           <Link href={"https://heyio.at"} target="_blank">
             <div className="relative h-12 w-12">
-              <Image
-                src="/logo.svg"
-                layout="fill"
-                alt="Logo"
-                className="py-1"
-              />
+              <Logo />
             </div>
           </Link>
         </div>

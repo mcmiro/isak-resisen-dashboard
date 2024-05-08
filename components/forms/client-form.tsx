@@ -17,8 +17,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
 import { useToast } from "../ui/use-toast";
-import ApiProvider from "@/lib/axios-instance";
-import useStrapiData from "@/hooks/useStrapiData";
+import useClient from "@/hooks/use-client";
 import { ClientModel } from "@/types/client";
 
 const formSchema = z.object({
@@ -30,7 +29,8 @@ const formSchema = z.object({
 type ClientFormValues = z.infer<typeof formSchema>;
 
 export const ClientForm: React.FC = () => {
-  const { fetchData } = useStrapiData();
+  const { getClientById, singleClient, insertClient, updateClient } =
+    useClient();
   const router = useRouter();
   const param = useParams<{ clientsId: string }>();
   const id: number | null =
@@ -55,51 +55,27 @@ export const ClientForm: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const fetchedData: ClientModel[] = await fetchData(`/clients/${id}`);
-        setInitialData(fetchedData[0]);
-      } catch (error) {
-        throw error;
-      }
-    };
-
-    id !== null && fetchDataAsync();
+    id !== null && getClientById(id);
   }, [id]);
 
   useEffect(() => {
-    if (initialData) {
-      form.reset(initialData);
-    }
+    singleClient && setInitialData(singleClient);
+  }, [singleClient]);
+
+  useEffect(() => {
+    initialData && form.reset(initialData);
   }, [initialData]);
 
   const onSubmit = async (data: ClientFormValues) => {
     try {
       setLoading(true);
       if (data) {
-        !id
-          ? await ApiProvider.post(
-              `${process.env.NEXT_PUBLIC_STRAPI_URL}/clients`,
-              data,
-            ).then((response) => {})
-          : await ApiProvider.put(
-              `${process.env.NEXT_PUBLIC_STRAPI_URL}/clients/${id}`,
-              data,
-            ).then((response) => {});
-        toast({
-          variant: "default",
-          title: "Erfolgreich gespeichert",
-          description: "Kundendaten erfolgreich gespeichert",
-        });
+        !id ? insertClient(data) : updateClient(data, id);
         router.refresh();
         router.push(`/dashboard/clients`);
       }
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Ups! Etwas ist schiefgegangen.",
-        description: "Es gab ein Problem mit Ihrer Anfrage.",
-      });
+    } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }

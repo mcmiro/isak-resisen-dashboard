@@ -20,10 +20,10 @@ export const navItems: NavItem[] = [
     label: "kunden",
   },
   {
-    title: "Profile",
-    href: "/dashboard/profile",
-    icon: "profile",
-    label: "profile",
+    title: "Buchen",
+    href: "/dashboard/order",
+    icon: "ticket",
+    label: "buchen",
   },
   {
     title: "Fahrzeuge",

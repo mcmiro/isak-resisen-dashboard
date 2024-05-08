@@ -6,7 +6,6 @@ import {
   ChevronLeft,
   ChevronRight,
   CircuitBoardIcon,
-  Command,
   CreditCard,
   File,
   FileText,
@@ -17,6 +16,7 @@ import {
   Loader2,
   LogIn,
   LucideIcon,
+  Ticket,
   Moon,
   MoreVertical,
   Pizza,
@@ -29,15 +29,13 @@ import {
   User2Icon,
   X,
 } from "lucide-react";
-
-import { ImUserTie } from "react-icons/im";
+import DriverIcon from "./driver-icon";
 
 export type Icon = LucideIcon;
 
 export const Icons = {
   dashboard: LayoutDashboardIcon,
   bus: Bus,
-  logo: Command,
   login: LogIn,
   close: X,
   profile: User2Icon,
@@ -46,9 +44,10 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
-  driver: ImUserTie,
+  driver: DriverIcon,
   post: FileText,
   page: File,
+  ticket: Ticket,
   media: Image,
   settings: Settings,
   billing: CreditCard,

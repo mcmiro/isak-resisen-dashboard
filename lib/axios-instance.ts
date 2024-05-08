@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/use-toast";
 import axios, { AxiosRequestConfig } from "axios";
 import { getSession } from "next-auth/react";
 
@@ -24,9 +25,21 @@ const ApiProvider = () => {
 
   instance.interceptors.response.use(
     (response) => {
+      // Handle successful responses here
+      //toast({
+      //  variant: "default",
+      //  title: "Erfolgreich gespeichert",
+      //  description: "Objekt erfolgreich gespeichert",
+      //});
       return response;
     },
     (error) => {
+      // Handle errors here
+      //toast({
+      //  variant: "destructive",
+      //  title: "Ups! Etwas ist schiefgegangen.",
+      //  description: "Es gab ein Problem mit Ihrer Anfrage.",
+      //});
       return Promise.reject(error);
     },
   );

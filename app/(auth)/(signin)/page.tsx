@@ -3,7 +3,7 @@ import Link from "next/link";
 import UserAuthForm from "@/components/forms/user-auth-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import Logo from "@/components/ui/logo";
 
 export const metadata: Metadata = {
   title: "Authentication",
@@ -26,49 +26,33 @@ export default function AuthenticationPage() {
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-lg font-medium">
           <div className="relative h-12 w-12 mr-2">
-            <Image src="/logo.svg" layout="fill" alt="Logo" className="py-1" />
+            <Logo />
           </div>
-          Isak Reisen
+          Isak Travel
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">
-              &ldquo;This library has saved me countless hours of work and
-              helped me deliver stunning designs to my clients faster than ever
-              before.&rdquo;
+              &ldquo;Willkommen bei Isak Travel - Ihre Plattform für
+              unvergessliche Reiseerlebnisse!&rdquo;
             </p>
-            <footer className="text-sm">Sofia Davis</footer>
+            <footer className="text-sm underline">
+              <a href="https://heyio.at" target="blank">
+                by heyio
+              </a>
+            </footer>
           </blockquote>
         </div>
       </div>
       <div className="p-4 lg:p-8 h-full flex items-center">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Create an account
-            </h1>
+            <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
             <p className="text-sm text-muted-foreground">
-              Enter your email below to create your account
+              Geben Sie Ihre E-Mail-Adresse ein
             </p>
           </div>
           <UserAuthForm />
-          <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
-            <Link
-              href="/terms"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="/privacy"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
         </div>
       </div>
     </div>

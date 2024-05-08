@@ -72,11 +72,11 @@ export default function UserAuthForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>E-Mail</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Enter your username..."
+                    placeholder="E-Mail Adresse eingeben..."
                     {...field}
                   />
                 </FormControl>
@@ -89,11 +89,11 @@ export default function UserAuthForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Passwort</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Enter your password..."
+                    placeholder="Passwort eingeben"
                     {...field}
                   />
                 </FormControl>
@@ -102,8 +102,8 @@ export default function UserAuthForm() {
             )}
           />
 
-          <Button className="ml-auto w-full" type="submit">
-            Continue With Email
+          <Button className="ml-auto w-full !mt-4" type="submit">
+            Login mit E-Mail
           </Button>
         </form>
       </Form>
