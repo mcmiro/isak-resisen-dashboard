@@ -44,7 +44,7 @@ const defaultValues = {
   startLocation: "",
   endLocation: "",
   paymentOption: "",
-  price: "",
+  price: 0,
   invoiceNumber: "",
   invoiceStatus: "",
   message: "",
