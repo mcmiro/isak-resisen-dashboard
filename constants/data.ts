@@ -8,6 +8,12 @@ export const navItems: NavItem[] = [
     label: "Home",
   },
   {
+    title: "Buchungen",
+    href: "/dashboard/orders",
+    icon: "ticket",
+    label: "buchen",
+  },
+  {
     title: "Kunden",
     href: "/dashboard/clients",
     icon: "user",
@@ -18,12 +24,6 @@ export const navItems: NavItem[] = [
     href: "/dashboard/drivers",
     icon: "driver",
     label: "kunden",
-  },
-  {
-    title: "Buchen",
-    href: "/dashboard/order",
-    icon: "ticket",
-    label: "buchen",
   },
   {
     title: "Fahrzeuge",

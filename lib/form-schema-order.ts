@@ -31,7 +31,12 @@ export const orderSchema = z.object({
   client: z.string().optional(),
   paymentOption: z.string().optional(),
   invoiceStatus: z.string().optional(),
-  price: z.number().optional(),
+  price: z
+    .string()
+    .optional()
+    .refine((value) => !value || /^\d+$/.test(value), {
+      message: "Der Preis sollte nur aus Zahlen bestehen.",
+    }),
   invoiceNumber: z.string().optional(),
   message: z.string().optional(),
 });

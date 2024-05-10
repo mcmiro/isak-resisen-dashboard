@@ -2,7 +2,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { CreateOrder } from "@/components/forms/order-form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const breadcrumbItems = [{ title: "Profile", link: "/dashboard/profile" }];
+const breadcrumbItems = [{ title: "Buchung", link: "/dashboard/orders" }];
 export default function page() {
   return (
     <ScrollArea className="h-full">
