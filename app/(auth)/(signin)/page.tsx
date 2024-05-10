@@ -28,7 +28,7 @@ export default function AuthenticationPage() {
           <div className="relative h-12 w-12 mr-2">
             <Logo />
           </div>
-          Isak Travel
+          <h2 className="dark:text-white light:text-black">Isak Travel</h2>
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">

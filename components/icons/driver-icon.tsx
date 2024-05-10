@@ -10,7 +10,7 @@ const DriverIcon: React.FC = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="h-4 w-4 mr-2"
+    className="h-3.5 w-4 mr-2"
   >
     <path d="M13.7,12.1h2.7c2.7,0,4.9,2.2,4.9,4.9v6" />
     <path d="M2.7,23c0-1.8,0-6,0-6c0-2.7,2.2-4.9,4.9-4.9h2.7" />

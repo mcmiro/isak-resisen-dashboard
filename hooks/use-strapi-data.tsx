@@ -1,7 +1,7 @@
 "use client";
 import { AxiosResponse } from "axios";
 import ApiProvider from "@/lib/axios-instance";
-import { OrderModel } from "@/types/order";
+import { OrderModel, OrderModelWithId } from "@/types/order";
 
 const useStrapiData = () => {
   const flatStrapiObject = (data: any) => {
@@ -49,10 +49,29 @@ const useStrapiData = () => {
     return parsedOrder;
   };
 
+  const handleOrderFromStrapi = async (
+    order: any,
+  ): Promise<OrderModelWithId> => {
+    let parsedOrder = { ...order };
+    for (const [key, value] of Object.entries(order)) {
+      if (key === "driver" && value !== null) {
+        parsedOrder.driver = order.driver?.data?.id.toString();
+      }
+      if (key === "client" && value !== null) {
+        parsedOrder.client = order.client?.data?.id.toString();
+      }
+      if (key === "vehicle" && value !== null) {
+        parsedOrder.vehicle = order.vehicle?.data?.id;
+      }
+    }
+    return parsedOrder;
+  };
+
   return {
     flatStrapiObject,
     fetchData,
     handleOrderForStrapi,
+    handleOrderFromStrapi,
   };
 };
 

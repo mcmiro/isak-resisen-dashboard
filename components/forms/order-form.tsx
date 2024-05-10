@@ -23,9 +23,8 @@ import { Textarea } from "../ui/textarea";
 import { orderSchema, type OrderFormValues } from "@/lib/form-schema-order";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { paymentOptions, paymentStatus } from "@/constants/payment";
 import useVehicle from "@/hooks/use-vehicle";
 import useDriver from "@/hooks/use-driver";
@@ -33,18 +32,21 @@ import useClient from "@/hooks/use-client";
 import useDate from "@/hooks/use-date";
 import useOrder from "@/hooks/use-order";
 import useStrapiData from "@/hooks/use-strapi-data";
+import { useRouter, useParams } from "next/navigation";
+import { OrderModelWithId } from "@/types/order";
 
 const defaultValues = {
+  id: 0,
   vehicle: 0,
-  driver: "",
-  client: "",
+  driver: "0",
+  client: "0",
   date: "",
   startTime: "",
   endTime: "",
   startLocation: "",
   endLocation: "",
   paymentOption: "",
-  price: 0,
+  price: "",
   invoiceNumber: "",
   invoiceStatus: "",
   message: "",
@@ -52,16 +54,21 @@ const defaultValues = {
 
 export const CreateOrder: React.FC = () => {
   const router = useRouter();
+  const param = useParams<{ ordersId: string }>();
+  const id: number | null =
+    param.ordersId !== "new" ? parseInt(param.ordersId) : null;
+
   const { getVehicles, vehicles } = useVehicle();
   const { getDrivers, drivers } = useDriver();
   const { getClients, clients } = useClient();
   const { handleGermanDate } = useDate();
-  const { insertOrder } = useOrder();
+  const { insertOrder, updateOrder, getOrderById, singleOrder } = useOrder();
   const { handleOrderForStrapi } = useStrapiData();
 
-  const [data, setData] = useState(defaultValues);
   const [date, setDate] = useState<Date | undefined>();
-  const [initialData, setInitialData] = useState(false);
+  const [initialData, setInitialData] = useState<
+    OrderModelWithId | undefined
+  >();
   const [loading, setLoading] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<number>(0);
   const [selectedPayment, setSelectedPayment] = useState<string>("");
@@ -77,6 +84,21 @@ export const CreateOrder: React.FC = () => {
     defaultValues,
     mode: "onChange",
   });
+
+  useEffect(() => {
+    id !== null && getOrderById(id);
+  }, [id]);
+
+  useEffect(() => {
+    if (singleOrder) {
+      setInitialData(singleOrder);
+      form.reset(singleOrder);
+      handleVehicle(singleOrder.vehicle!);
+      handlePaymentOption(singleOrder.paymentOption ?? "");
+      handlePaymentStatus(singleOrder.invoiceStatus ?? "");
+      handleDate(new Date(singleOrder.date));
+    }
+  }, [singleOrder]);
 
   useEffect(() => {
     getVehicles();
@@ -106,49 +128,29 @@ export const CreateOrder: React.FC = () => {
   };
 
   const onSubmit = async (data: OrderFormValues) => {
-    processForm(data);
     try {
       setLoading(true);
       if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+        updateOrder(handleOrderForStrapi(data), initialData.id);
       } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+        insertOrder(handleOrderForStrapi(data));
       }
       router.refresh();
-      router.push(`/dashboard/products`);
+      router.push(`/dashboard/orders`);
     } catch (error: any) {
     } finally {
       setLoading(false);
     }
   };
 
-  const processForm: SubmitHandler<OrderFormValues> = (data) => {
-    insertOrder(handleOrderForStrapi(data));
-    console.log("data ==>", handleOrderForStrapi(data));
-    //setData(data);
-    // api call and reset
-    // form.reset();
-  };
-
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        {/*{initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}*/}
       </div>
       <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(processForm)} className="w-full">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className={cn("md:inline-block w-full")}>
             <div className="flex flex-col gap-4 w-full overflow-x-auto h-20">
               <FormLabel>Fahrzeug</FormLabel>
@@ -367,12 +369,13 @@ export const CreateOrder: React.FC = () => {
                   <FormLabel>Preis</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
                       placeholder="Preis eingeben"
                       {...field}
-                      onChange={(event) =>
-                        field.onChange(Number(event.target.value))
-                      }
+                      onChange={(event) => {
+                        const inputValue = event.target.value;
+                        const numericValue = inputValue.replace(/\D/g, "");
+                        field.onChange(numericValue);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
