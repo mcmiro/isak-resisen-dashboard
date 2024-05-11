@@ -34,6 +34,10 @@ export default function Page() {
   const { handleGermanDate } = useDate();
 
   const { data: session } = useSession();
+  useEffect(() => {
+    //@ts-ignore
+    session?.jwt && localStorage.setItem("jwt", session?.jwt);
+  }, [session]);
 
   const [vehicleMatrix, setVehicleMatrix] = useState<VehicleModel[]>();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -190,7 +194,7 @@ export default function Page() {
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>
-                  <div className="flex items-center justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <CardTitle>Übersicht</CardTitle>
                     <div className="flex gap-2">
                       <Button

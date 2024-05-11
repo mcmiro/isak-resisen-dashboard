@@ -12,6 +12,7 @@ export const authOptions: NextAuthOptions = {
       if (account && account.type === "credentials") {
         token.userId = account.providerAccountId;
       }
+
       return token;
     },
     async session({ session, token, user }) {
