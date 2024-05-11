@@ -1,5 +1,4 @@
 "use client";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { RecentSales } from "@/components/recent-sales";
 import { Button } from "@/components/ui/button";
 import {
@@ -258,8 +257,8 @@ export default function Page() {
             </div>
           </TabsContent>
           <TabsContent value="plan" className="space-y-4">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
+            <div>
+              <Card>
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <CardTitle>Übersicht</CardTitle>
@@ -304,27 +303,6 @@ export default function Page() {
                   )}
                 </CardContent>
               </Card>
-              <div className="col-span-4 md:col-span-3">
-                <Card className="w-full">
-                  <CardHeader>
-                    <CardTitle>
-                      Buchungen für heute {handleGermanDate(new Date())}
-                    </CardTitle>
-                    <CardDescription>
-                      Sie haben diesen Monat{" "}
-                      {orders && handleCurrentMonthOrders(orders).length}{" "}
-                      Verkäufe getätigt.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {orders?.length ? (
-                      <RecentSales orders={handleTodaysOrders(orders)} />
-                    ) : (
-                      <div>Keine ergebnisse</div>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
             </div>
           </TabsContent>
         </Tabs>

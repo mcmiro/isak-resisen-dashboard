@@ -25,4 +25,6 @@ export interface OrderModelWithId
   client?: RelationModel;
   driver?: RelationModel;
   vehicle?: RelationModel;
+  createdBy?: RelationModel;
+  updatedBy?: RelationModel;
 }

@@ -6,12 +6,6 @@ import { handleGermanDate, handleGermanSummary } from "@/lib/parse-data-german";
 
 export const columns: ColumnDef<OrderModelWithId>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-    enableSorting: true,
-    enableHiding: false,
-  },
-  {
     accessorKey: "date",
     header: "DATUM",
     enableSorting: true,
@@ -41,32 +35,44 @@ export const columns: ColumnDef<OrderModelWithId>[] = [
     header: "RECHNUNG",
     cell: ({ row }) => (
       <div className="text-xs dark:text-white light:text-zinc-400">
-        <div
-          className={`text-center max-w-[120px] px-6 py-1 rounded-full
-					${
-            row.original.invoiceNumber && row.original.invoiceStatus === "Offen"
-              ? "bg-red-500"
-              : ""
-          }
-					${
-            row.original.invoiceNumber &&
-            row.original.invoiceStatus === "Bezahlt"
-              ? "bg-cyan-500"
-              : ""
-          }
-					${
-            !row.original.invoiceNumber
-              ? "border border-zinc-400 light:text-zinc-400 dark:text-zinc-400"
-              : ""
-          }
-					`}
-        >
-          {row.original.invoiceNumber ? (
-            <span className="block">{row.original.invoiceNumber}</span>
-          ) : (
-            <span className="block">Keine Rechnung</span>
-          )}
+        <div className={`py-1 rounded-full`}>
+          <span
+            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold text-red-950 border-zinc-400`}
+          >
+            {row.original.invoiceNumber
+              ? row.original.invoiceNumber
+              : "Keine Rechnung"}
+          </span>
         </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "invoiceStatus",
+    enableSorting: true,
+    enableHiding: false,
+    header: "STATUS",
+    cell: ({ row }) => (
+      <div className="text-xs dark:text-white light:text-zinc-400">
+        <div className={`py-1 rounded-full`}>
+          <span
+            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold text-red-950 border-zinc-400`}
+          >
+            {row.original.invoiceStatus === ""
+              ? "Offen"
+              : row.original.invoiceStatus}
+          </span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "price",
+    enableSorting: true,
+    enableHiding: false,
+    header: "Preis",
+    cell: ({ row }) => (
+      <div className="text-xs dark:text-white light:text-zinc-400">
         <div className="mt-1">
           {row.original.price && (
             <span>
