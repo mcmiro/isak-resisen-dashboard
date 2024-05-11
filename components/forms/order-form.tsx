@@ -33,7 +33,7 @@ import useDate from "@/hooks/use-date";
 import useOrder from "@/hooks/use-order";
 import useStrapiData from "@/hooks/use-strapi-data";
 import { useRouter, useParams } from "next/navigation";
-import { OrderModelWithId } from "@/types/order";
+import { OrderModel, OrderModelWithId } from "@/types/order";
 
 const defaultValues = {
   id: 0,
@@ -92,7 +92,8 @@ export const CreateOrder: React.FC = () => {
   useEffect(() => {
     if (singleOrder) {
       setInitialData(singleOrder);
-      form.reset(singleOrder);
+      form.reset(singleOrder as OrderModel);
+      // @ts-ignore
       handleVehicle(singleOrder.vehicle!);
       handlePaymentOption(singleOrder.paymentOption ?? "");
       handlePaymentStatus(singleOrder.invoiceStatus ?? "");
