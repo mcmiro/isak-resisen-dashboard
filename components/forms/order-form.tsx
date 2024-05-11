@@ -34,6 +34,7 @@ import useOrder from "@/hooks/use-order";
 import useStrapiData from "@/hooks/use-strapi-data";
 import { useRouter, useParams } from "next/navigation";
 import { OrderModel, OrderModelWithId } from "@/types/order";
+import { useSession } from "next-auth/react";
 
 const defaultValues = {
   id: 0,
@@ -53,6 +54,7 @@ const defaultValues = {
 };
 
 export const CreateOrder: React.FC = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const param = useParams<{ ordersId: string }>();
   const id: number | null =
@@ -132,9 +134,17 @@ export const CreateOrder: React.FC = () => {
     try {
       setLoading(true);
       if (initialData) {
-        updateOrder(handleOrderForStrapi(data), initialData.id);
+        const strapiData = handleOrderForStrapi(data);
+        updateOrder(
+          //@ts-ignore
+          { ...strapiData, updated_by_id: session?.user?.id },
+          initialData.id,
+        );
       } else {
-        insertOrder(handleOrderForStrapi(data));
+        insertOrder(
+          //@ts-ignore
+          handleOrderForStrapi({ ...data, created_by_id: session?.user?.id }),
+        );
       }
       router.refresh();
       router.push(`/dashboard/orders`);

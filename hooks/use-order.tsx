@@ -12,11 +12,23 @@ const useOrder = () => {
   const [orders, setOrders] = useState<OrderModelWithId[]>();
   const [singleOrder, setSingleOrder] = useState<OrderModelWithId | null>(null);
 
-  const getOrders = async (): Promise<OrderModelWithId[]> => {
+  const getOrders = async (
+    page?: number,
+    pageSize?: number,
+  ): Promise<OrderModelWithId[]> => {
     try {
-      const fetchedData: any = await fetchData(
-        "/orders?populate[0]=driver&populate[1]=vehicle&populate[2]=client",
-      );
+      let params = {
+        "populate[0]": "driver",
+        "populate[1]": "vehicle",
+        "populate[2]": "client",
+        "populate[3]": "createdBy",
+        "populate[4]": "updatedBy",
+        "pagination[pageSize]": pageSize ? pageSize : "2000",
+        "pagination[page]": page ? page : 0,
+        sort: "date:ASC",
+      };
+
+      const fetchedData: any = await fetchData("/orders?", params);
 
       const parsedOrders = fetchedData.map((order: any) => {
         const client = {
@@ -31,12 +43,22 @@ const useOrder = () => {
           id: order?.vehicle?.data?.id,
           name: order?.vehicle?.data?.attributes?.name,
         };
+        const createdBy = {
+          id: order?.createdBy?.data?.id,
+          name: order?.createdBy?.data?.attributes?.firstname,
+        };
+        const updatedBy = {
+          id: order?.updatedBy?.data?.id,
+          name: order?.updatedBy?.data?.attributes?.firstname,
+        };
 
         return {
           ...order,
           client: client.id !== undefined ? client : null,
           driver: driver.id !== undefined ? driver : null,
           vehicle: vehicle.id !== undefined ? vehicle : null,
+          createdBy: createdBy.id !== undefined ? createdBy : null,
+          updatedBy: updatedBy.id !== undefined ? updatedBy : null,
         };
       });
 

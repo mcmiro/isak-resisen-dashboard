@@ -8,6 +8,12 @@ export const navItems: NavItem[] = [
     label: "Home",
   },
   {
+    title: "Fahrplan",
+    href: "/dashboard/schedule",
+    icon: "dashboard",
+    label: "Fahrplan",
+  },
+  {
     title: "Buchungen",
     href: "/dashboard/orders",
     icon: "ticket",

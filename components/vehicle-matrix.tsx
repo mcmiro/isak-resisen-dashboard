@@ -41,10 +41,11 @@ const VehicleMatrix = ({ orders, vehicles, date }: VehicleMatrixProps) => {
 
   const memoizedVehicles = useMemo(() => vehicles, [vehicles]);
   const memoizedDays = useMemo(() => days, [days]);
+  const memoizedOrders = useMemo(() => orders, [orders]);
 
   return (
     <div className="px-4">
-      <div className="flex flex-row border dark:border-zinc-600 light:border-zinc-300 rounded-xl overflow-hidden">
+      <div className="flex flex-row border dark:border-zinc-600 light:border-zinc-300 rounded-lg overflow-hidden">
         {memoizedVehicles?.length &&
           memoizedVehicles.map((vehicle, v) => (
             <div
@@ -53,8 +54,8 @@ const VehicleMatrix = ({ orders, vehicles, date }: VehicleMatrixProps) => {
                 ${v < memoizedVehicles.length - 1 && "border-r"}
               } dark:border-zinc-600 light:border-zinc-300`}
             >
-              <div className="flex items-center justify-center h-10 text-sm font-bold">
-                {vehicle.name.slice(0, 8)}
+              <div className="flex items-center justify-center h-10 text-xs md:text-sm font-bold">
+                {vehicle.name}
               </div>
               {memoizedDays?.length &&
                 memoizedDays.map((day: number, d: number) => (
@@ -72,7 +73,7 @@ const VehicleMatrix = ({ orders, vehicles, date }: VehicleMatrixProps) => {
                     ) : (
                       <div className="flex items-center justify-center h-8">
                         {handleDailyOrdersWithVehicle(
-                          orders,
+                          memoizedOrders,
                           vehicle,
                           handleEachDay(day),
                         ) ? (

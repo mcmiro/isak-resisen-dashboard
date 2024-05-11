@@ -26,10 +26,11 @@ const useStrapiData = () => {
     return flattenedData;
   };
 
-  async function fetchData<T>(route: string): Promise<T> {
+  async function fetchData<T>(route: string, params?: any): Promise<T> {
     try {
       const response: AxiosResponse<any> = await ApiProvider.get(
         `${process.env.NEXT_PUBLIC_STRAPI_URL}${route}`,
+        { params },
       );
 
       return flatStrapiObject(response.data.data) as T;
