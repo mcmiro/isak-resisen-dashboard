@@ -37,7 +37,6 @@ const VehicleMatrix = ({ orders, vehicles, date }: VehicleMatrixProps) => {
 
   useEffect(() => {
     daysInMonth(date);
-    console.log("date from matrix", date);
   }, []);
 
   const memoizedVehicles = useMemo(() => vehicles, [vehicles]);
