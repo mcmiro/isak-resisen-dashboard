@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
 import useOrder from "@/hooks/use-order";
-import { OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 import { VehicleModel } from "@/types/vehicle";
 import { getMonth, getYear } from "date-fns";
 
 export interface VehicleMatrixProps {
-  orders: OrderModelWithId[];
+  orders: OrderModel[];
   vehicles: VehicleModel[];
   date: Date;
 }

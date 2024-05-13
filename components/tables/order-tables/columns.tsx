@@ -1,10 +1,10 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 import { handleGermanDate, handleGermanSummary } from "@/lib/parse-data-german";
 
-export const columns: ColumnDef<OrderModelWithId>[] = [
+export const columns: ColumnDef<OrderModel>[] = [
   {
     accessorKey: "date",
     header: "DATUM",

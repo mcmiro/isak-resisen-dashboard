@@ -1,16 +1,16 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { handleGermanDate, handleGermanSummary } from "@/lib/parse-data-german";
-import { OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 
 export type RecentSalesProps = {
-  orders: OrderModelWithId[];
+  orders: OrderModel[];
 };
 
 export function RecentSales({ orders }: RecentSalesProps) {
   return (
     <div className="divide-y">
       {orders &&
-        orders.map((el: OrderModelWithId, index: number) => {
+        orders.map((el: OrderModel, index: number) => {
           return (
             <div key={index} className="flex items-center justify-between py-4">
               <div className="flex items-center">

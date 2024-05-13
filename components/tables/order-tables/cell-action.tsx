@@ -8,14 +8,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useOrder from "@/hooks/use-order";
 
 interface CellActionProps {
-  data: OrderModelWithId;
+  data: OrderModel;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

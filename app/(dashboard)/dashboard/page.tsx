@@ -19,7 +19,7 @@ import useVehicle from "@/hooks/use-vehicle";
 import useDriver from "@/hooks/use-driver";
 import useOrder from "@/hooks/use-order";
 import useDate from "@/hooks/use-date";
-import { OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 import { VehicleModel } from "@/types/vehicle";
 import { addMonths, getYear, format } from "date-fns";
 import { de } from "date-fns/locale";
@@ -179,8 +179,7 @@ export default function Page() {
                     <div className="text-2xl font-bold">
                       {
                         orders?.filter(
-                          (el: OrderModelWithId) =>
-                            el.invoiceStatus !== "Bezahlt",
+                          (el: OrderModel) => el.invoiceStatus !== "Bezahlt",
                         ).length
                       }
                     </div>
