@@ -44,25 +44,23 @@ const useStrapiData = () => {
     let parsedOrder: any = { ...order };
 
     for (const [key, value] of Object.entries(order)) {
-      for (const [key, value] of Object.entries(order)) {
-        if (key === "date") {
-          const dbDate = value.toString().split(".").reverse().join("-");
-          parsedOrder.date = dbDate;
-        }
-        if (key === "driver" && typeof value === "object" && value !== null) {
-          parsedOrder.driver = value?.id?.toString();
-        }
-        if (key === "client" && typeof value === "object" && value !== null) {
-          parsedOrder.client = value?.id?.toString();
-        }
-        if (key === "vehicle" && typeof value === "object" && value !== null) {
-          //@ts-ignore
-          parsedOrder.vehicle = parseInt(value?.id);
-        }
-        if (key === "price" && typeof value === "string" && value === "") {
-          //@ts-ignore
-          parsedOrder.price = "0";
-        }
+      if (key === "date") {
+        const dbDate = value.toString().split(".").reverse().join("-");
+        parsedOrder.date = dbDate;
+      }
+      if (key === "driver" && typeof value === "object" && value !== null) {
+        parsedOrder.driver = value?.id?.toString();
+      }
+      if (key === "client" && typeof value === "object" && value !== null) {
+        parsedOrder.client = value?.id?.toString();
+      }
+      if (key === "vehicle" && typeof value === "object" && value !== null) {
+        //@ts-ignore
+        parsedOrder.vehicle = parseInt(value?.id);
+      }
+      if (key === "price" && typeof value === "string" && value === "") {
+        //@ts-ignore
+        parsedOrder.price = "0";
       }
     }
 

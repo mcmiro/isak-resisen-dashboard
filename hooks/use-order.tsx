@@ -6,6 +6,7 @@ import ApiProvider from "@/lib/axios-instance";
 import { OrderModel } from "@/types/order";
 import { toast } from "@/components/ui/use-toast";
 import { VehicleModel } from "@/types/vehicle";
+import { removeLeadingZerosFromDate } from "@/lib/parse-data-german";
 
 const useOrder = () => {
   const { fetchData, handleOrderFromStrapi } = useStrapiData();
@@ -172,12 +173,14 @@ const useOrder = () => {
     vehicle: VehicleModel,
     date: string,
   ) => {
+    const currentDate = date;
     const isTodaysOrder = orders.filter((el: OrderModel) => {
-      const currentDate = new Date(date);
-      const orderDate = new Date(el.date);
+      const orderDate = el.date;
+
       return (
         vehicle.name === el?.vehicle?.name &&
-        orderDate.toDateString() === currentDate.toDateString()
+        removeLeadingZerosFromDate(orderDate) ===
+          removeLeadingZerosFromDate(currentDate)
       );
     });
 
