@@ -1,8 +1,16 @@
+export type RelationModel = {
+  id: number;
+  name: string;
+};
+
 export type OrderModel = {
+  id: number;
   date: string;
-  vehicle?: number;
-  driver?: string;
-  client?: string;
+  client?: RelationModel;
+  driver?: RelationModel;
+  vehicle?: RelationModel;
+  createdBy?: RelationModel;
+  updatedBy?: RelationModel;
   startTime?: string;
   endTime?: string;
   startLocation?: string;
@@ -13,18 +21,3 @@ export type OrderModel = {
   invoiceStatus?: string;
   message?: string;
 };
-
-type RelationModel = {
-  id: number;
-  name: string;
-};
-
-export interface OrderModelWithId
-  extends Omit<OrderModel, "vehicle" | "client" | "driver"> {
-  id: number;
-  client?: RelationModel;
-  driver?: RelationModel;
-  vehicle?: RelationModel;
-  createdBy?: RelationModel;
-  updatedBy?: RelationModel;
-}

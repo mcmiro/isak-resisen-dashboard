@@ -227,7 +227,7 @@ export default function Page() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="px-2">
+                <CardContent className="px-2 max-h-[500px] overflow-auto">
                   {orders?.length && vehicleMatrix?.length && (
                     <VehicleMatrix
                       orders={orders}

@@ -33,7 +33,7 @@ import useDate from "@/hooks/use-date";
 import useOrder from "@/hooks/use-order";
 import useStrapiData from "@/hooks/use-strapi-data";
 import { useRouter, useParams } from "next/navigation";
-import { OrderModel, OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 import { useSession } from "next-auth/react";
 
 const defaultValues = {
@@ -68,9 +68,7 @@ export const CreateOrder: React.FC = () => {
   const { handleOrderForStrapi } = useStrapiData();
 
   const [date, setDate] = useState<Date | undefined>();
-  const [initialData, setInitialData] = useState<
-    OrderModelWithId | undefined
-  >();
+  const [initialData, setInitialData] = useState<OrderFormValues | undefined>();
   const [loading, setLoading] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<number>(0);
   const [selectedPayment, setSelectedPayment] = useState<string>("");
@@ -93,15 +91,19 @@ export const CreateOrder: React.FC = () => {
 
   useEffect(() => {
     if (singleOrder) {
-      setInitialData(singleOrder);
-      form.reset(singleOrder as OrderModel);
-      // @ts-ignore
-      handleVehicle(singleOrder.vehicle!);
-      handlePaymentOption(singleOrder.paymentOption ?? "");
-      handlePaymentStatus(singleOrder.invoiceStatus ?? "");
-      handleDate(new Date(singleOrder.date));
+      setInitialData(handleOrderForStrapi(singleOrder));
+      form.reset(handleOrderForStrapi(singleOrder));
     }
   }, [singleOrder]);
+
+  useEffect(() => {
+    if (initialData) {
+      handleVehicle(initialData.vehicle!);
+      handlePaymentOption(initialData.paymentOption ?? "");
+      handlePaymentStatus(initialData.invoiceStatus ?? "");
+      handleDate(new Date(initialData.date));
+    }
+  }, [initialData]);
 
   useEffect(() => {
     getVehicles();
@@ -132,13 +134,13 @@ export const CreateOrder: React.FC = () => {
 
   const onSubmit = async (data: OrderFormValues) => {
     try {
+      console.log("data", data);
       setLoading(true);
       if (initialData) {
-        const strapiData = handleOrderForStrapi(data);
         updateOrder(
           //@ts-ignore
-          { ...strapiData, updated_by_id: session?.user?.id },
-          initialData.id,
+          { ...handleOrderForStrapi(data), updated_by_id: session?.user?.id },
+          id,
         );
       } else {
         insertOrder(

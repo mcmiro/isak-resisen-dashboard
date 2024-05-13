@@ -37,7 +37,7 @@ export const columns: ColumnDef<OrderModelWithId>[] = [
       <div className="text-xs dark:text-white light:text-zinc-400">
         <div className={`py-1 rounded-full`}>
           <span
-            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold text-red-950 border-zinc-400`}
+            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold dark:text-white text-zinc-900 border-zinc-400`}
           >
             {row.original.invoiceNumber
               ? row.original.invoiceNumber
@@ -56,7 +56,7 @@ export const columns: ColumnDef<OrderModelWithId>[] = [
       <div className="text-xs dark:text-white light:text-zinc-400">
         <div className={`py-1 rounded-full`}>
           <span
-            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold text-red-950 border-zinc-400`}
+            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold dark:text-white text-zinc-900 border-zinc-400`}
           >
             {row.original.invoiceStatus === ""
               ? "Offen"
@@ -72,7 +72,7 @@ export const columns: ColumnDef<OrderModelWithId>[] = [
     enableHiding: false,
     header: "Preis",
     cell: ({ row }) => (
-      <div className="text-xs dark:text-white light:text-zinc-400">
+      <div className="text-xs dark:text-white text-zinc-900">
         <div className="mt-1">
           {row.original.price && (
             <span>

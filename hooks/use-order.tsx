@@ -3,19 +3,19 @@
 import { useState } from "react";
 import useStrapiData from "./use-strapi-data";
 import ApiProvider from "@/lib/axios-instance";
-import { OrderModel, OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
 import { toast } from "@/components/ui/use-toast";
 import { VehicleModel } from "@/types/vehicle";
 
 const useOrder = () => {
   const { fetchData, handleOrderFromStrapi } = useStrapiData();
-  const [orders, setOrders] = useState<OrderModelWithId[]>();
-  const [singleOrder, setSingleOrder] = useState<OrderModelWithId | null>(null);
+  const [orders, setOrders] = useState<OrderModel[]>();
+  const [singleOrder, setSingleOrder] = useState<OrderModel | null>(null);
 
   const getOrders = async (
     page?: number,
     pageSize?: number,
-  ): Promise<OrderModelWithId[]> => {
+  ): Promise<OrderModel[]> => {
     try {
       let params = {
         "populate[0]": "driver",
@@ -69,9 +69,9 @@ const useOrder = () => {
     }
   };
 
-  const getOrderById = async (id: number): Promise<OrderModelWithId> => {
+  const getOrderById = async (id: number): Promise<OrderModel> => {
     try {
-      const fetchedData: OrderModelWithId[] = await fetchData(
+      const fetchedData: OrderModel[] = await fetchData(
         `/orders/${id}?populate[0]=driver&populate[1]=vehicle&populate[2]=client`,
       );
       const parsedOrder = handleOrderFromStrapi(fetchedData[0]);
@@ -144,8 +144,8 @@ const useOrder = () => {
     }
   };
 
-  const handleCurrentMonthOrders = (orders: OrderModelWithId[]) => {
-    const currentMonthOrders = orders.filter((el: OrderModelWithId) => {
+  const handleCurrentMonthOrders = (orders: OrderModel[]) => {
+    const currentMonthOrders = orders.filter((el: OrderModel) => {
       const today = new Date();
       const orderDate = new Date(el.date);
       return (
@@ -157,8 +157,8 @@ const useOrder = () => {
     return currentMonthOrders;
   };
 
-  const handleTodaysOrders = (orders: OrderModelWithId[]) => {
-    const todaysOrders = orders.filter((el: OrderModelWithId) => {
+  const handleTodaysOrders = (orders: OrderModel[]) => {
+    const todaysOrders = orders.filter((el: OrderModel) => {
       const today = new Date();
       const orderDate = new Date(el.date);
       return orderDate.toDateString() === today.toDateString();
@@ -168,11 +168,11 @@ const useOrder = () => {
   };
 
   const handleDailyOrdersWithVehicle = (
-    orders: OrderModelWithId[],
+    orders: OrderModel[],
     vehicle: VehicleModel,
     date: string,
   ) => {
-    const isTodaysOrder = orders.filter((el: OrderModelWithId) => {
+    const isTodaysOrder = orders.filter((el: OrderModel) => {
       const currentDate = new Date(date);
       const orderDate = new Date(el.date);
       return (

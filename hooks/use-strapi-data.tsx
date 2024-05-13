@@ -1,7 +1,8 @@
 "use client";
 import { AxiosResponse } from "axios";
 import ApiProvider from "@/lib/axios-instance";
-import { OrderModel, OrderModelWithId } from "@/types/order";
+import { OrderModel } from "@/types/order";
+import { OrderFormValues } from "@/lib/form-schema-order";
 
 const useStrapiData = () => {
   const flatStrapiObject = (data: any) => {
@@ -39,30 +40,55 @@ const useStrapiData = () => {
     }
   }
 
-  const handleOrderForStrapi = (order: OrderModel) => {
-    let parsedOrder = { ...order };
+  const handleOrderForStrapi = (order: OrderModel): OrderFormValues => {
+    let parsedOrder: any = { ...order };
+
     for (const [key, value] of Object.entries(order)) {
       if (key === "date") {
         const dbDate = value.toString().split(".").reverse().join("-");
         parsedOrder.date = dbDate;
       }
+      for (const [key, value] of Object.entries(order)) {
+        if (key === "date") {
+          const dbDate = value.toString().split(".").reverse().join("-");
+          parsedOrder.date = dbDate;
+        }
+        if (key === "driver" && typeof value === "object" && value !== null) {
+          parsedOrder.driver = value.id.toString();
+        }
+        if (key === "client" && typeof value === "object" && value !== null) {
+          parsedOrder.client = value.id.toString();
+        }
+        if (key === "vehicle" && typeof value === "object" && value !== null) {
+          //@ts-ignore
+          parsedOrder.vehicle = parseInt(value.id);
+        }
+      }
     }
+
     return parsedOrder;
   };
 
-  const handleOrderFromStrapi = async (
-    order: any,
-  ): Promise<OrderModelWithId> => {
+  const handleOrderFromStrapi = async (order: any): Promise<OrderModel> => {
     let parsedOrder = { ...order };
     for (const [key, value] of Object.entries(order)) {
       if (key === "driver" && value !== null) {
-        parsedOrder.driver = order.driver?.data?.id.toString();
+        parsedOrder.driver = {
+          id: order.driver?.data?.id.toString(),
+          name: order.driver?.data?.attributes?.name,
+        };
       }
       if (key === "client" && value !== null) {
-        parsedOrder.client = order.client?.data?.id.toString();
+        parsedOrder.client = {
+          id: order.client?.data?.id.toString(),
+          name: order.client?.data?.attributes?.name,
+        };
       }
       if (key === "vehicle" && value !== null) {
-        parsedOrder.vehicle = order.vehicle?.data?.id;
+        parsedOrder.vehicle = {
+          id: order.vehicle?.data?.id.toString(),
+          name: order.vehicle?.data?.attributes?.name,
+        };
       }
     }
     return parsedOrder;
