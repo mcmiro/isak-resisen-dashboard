@@ -33,7 +33,6 @@ import useDate from "@/hooks/use-date";
 import useOrder from "@/hooks/use-order";
 import useStrapiData from "@/hooks/use-strapi-data";
 import { useRouter, useParams } from "next/navigation";
-import { OrderModel } from "@/types/order";
 import { useSession } from "next-auth/react";
 
 const defaultValues = {
@@ -47,7 +46,7 @@ const defaultValues = {
   startLocation: "",
   endLocation: "",
   paymentOption: "",
-  price: "",
+  price: "0",
   invoiceNumber: "",
   invoiceStatus: "",
   message: "",

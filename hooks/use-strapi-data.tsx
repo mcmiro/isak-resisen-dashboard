@@ -63,6 +63,10 @@ const useStrapiData = () => {
           //@ts-ignore
           parsedOrder.vehicle = parseInt(value.id);
         }
+        if (key === "price" && typeof value === "string" && value === "") {
+          //@ts-ignore
+          parsedOrder.price = "0";
+        }
       }
     }
 
