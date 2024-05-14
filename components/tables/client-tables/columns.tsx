@@ -17,6 +17,10 @@ export const columns: ColumnDef<ClientModel>[] = [
   {
     header: "AKTIONEN",
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <CellAction data={row.original} />
+      </div>
+    ),
   },
 ];

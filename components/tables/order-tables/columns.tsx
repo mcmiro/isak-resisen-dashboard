@@ -11,9 +11,9 @@ export const columns: ColumnDef<OrderModel>[] = [
     enableSorting: true,
     enableHiding: false,
     cell: ({ row }) => (
-      <>
-        <span>{handleGermanDate(row.original.date)}</span>
-      </>
+      <span className="block min-w-[120px]">
+        {handleGermanDate(row.original.date)}
+      </span>
     ),
   },
   {
@@ -22,7 +22,7 @@ export const columns: ColumnDef<OrderModel>[] = [
     enableHiding: false,
     header: "FAHRT",
     cell: ({ row }) => (
-      <span className="text-xs dark:text-zinc-400">
+      <span className="dark:text-zinc-400 min-w-[120px] block">
         {row.original.startLocation}
         <br></br> {row.original.endLocation}
       </span>
@@ -34,10 +34,10 @@ export const columns: ColumnDef<OrderModel>[] = [
     enableHiding: false,
     header: "RECHNUNG",
     cell: ({ row }) => (
-      <div className="text-xs dark:text-white light:text-zinc-400">
+      <div className="dark:text-white light:text-zinc-400 min-w-[160px]">
         <div className={`py-1 rounded-full`}>
           <span
-            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold dark:text-white text-zinc-900 border-zinc-400`}
+            className={`inline-flex items-center rounded-lg py-1 md:py-2 font-semibold dark:text-white text-zinc-900 border-zinc-400`}
           >
             {row.original.invoiceNumber
               ? row.original.invoiceNumber
@@ -53,10 +53,10 @@ export const columns: ColumnDef<OrderModel>[] = [
     enableHiding: false,
     header: "STATUS",
     cell: ({ row }) => (
-      <div className="text-xs dark:text-white light:text-zinc-400">
+      <div className="dark:text-white light:text-zinc-400 min-w-[100px]">
         <div className={`py-1 rounded-full`}>
           <span
-            className={`inline-flex items-center rounded-lg py-1 md:py-2 text-[8px] md:text-sm font-semibold dark:text-white text-zinc-900 border-zinc-400`}
+            className={`inline-flex items-center rounded-lg py-1 md:py-2 font-semibold dark:text-white text-zinc-900 border-zinc-400`}
           >
             {row.original.invoiceStatus === ""
               ? "Offen"
@@ -72,7 +72,7 @@ export const columns: ColumnDef<OrderModel>[] = [
     enableHiding: false,
     header: "Preis",
     cell: ({ row }) => (
-      <div className="text-xs dark:text-white text-zinc-900">
+      <div className="dark:text-white text-zinc-900 min-w-[120px]">
         <div className="mt-1">
           {row.original.price && (
             <span>
@@ -90,6 +90,10 @@ export const columns: ColumnDef<OrderModel>[] = [
   {
     header: "AKTIONEN",
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <CellAction data={row.original} />
+      </div>
+    ),
   },
 ];

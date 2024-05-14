@@ -85,3 +85,10 @@
     height: 100dvh;
   }
 }
+
+table th:last-child {
+  /* Apply Flexbox properties */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

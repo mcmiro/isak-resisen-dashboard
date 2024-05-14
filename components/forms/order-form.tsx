@@ -133,7 +133,6 @@ export const CreateOrder: React.FC = () => {
 
   const onSubmit = async (data: OrderFormValues) => {
     try {
-      console.log("data", data);
       setLoading(true);
       if (initialData) {
         updateOrder(

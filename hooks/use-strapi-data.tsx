@@ -49,14 +49,16 @@ const useStrapiData = () => {
         parsedOrder.date = dbDate;
       }
       if (key === "driver" && typeof value === "object" && value !== null) {
-        parsedOrder.driver = value?.id?.toString();
+        parsedOrder.driver =
+          value?.id === undefined ? "0" : value?.id?.toString();
       }
       if (key === "client" && typeof value === "object" && value !== null) {
-        parsedOrder.client = value?.id?.toString();
+        parsedOrder.client =
+          value?.id === undefined ? "0" : value?.id?.toString();
       }
       if (key === "vehicle" && typeof value === "object" && value !== null) {
         //@ts-ignore
-        parsedOrder.vehicle = parseInt(value?.id);
+        parsedOrder.vehicle = value?.id === undefined ? 0 : parseInt(value?.id);
       }
       if (key === "price" && typeof value === "string" && value === "") {
         //@ts-ignore
