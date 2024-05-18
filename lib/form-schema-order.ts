@@ -12,7 +12,7 @@ export const orderSchema = z.object({
     .refine(
       (value) => !value || /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(value),
       {
-        message: "Die Uhrzeit sollte im Format HH-MM sein.",
+        message: "Die Uhrzeit sollte im Format HH:MM sein.",
       },
     ),
   endTime: z
@@ -22,7 +22,7 @@ export const orderSchema = z.object({
     .refine(
       (value) => !value || /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(value),
       {
-        message: "Die Uhrzeit sollte im Format HH-MM sein.",
+        message: "Die Uhrzeit sollte im Format HH:MM sein.",
       },
     ),
   startLocation: z.string().optional(),
@@ -34,7 +34,7 @@ export const orderSchema = z.object({
   price: z
     .string()
     .optional()
-    .refine((value) => !value || /^\d+$/.test(value), {
+    .refine((value) => !value || /^[\d,]+$/.test(value), {
       message: "Der Preis sollte nur aus Zahlen bestehen.",
     }),
   invoiceNumber: z.string().optional(),

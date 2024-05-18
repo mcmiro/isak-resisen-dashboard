@@ -17,6 +17,15 @@ export const columns: ColumnDef<OrderModel>[] = [
     ),
   },
   {
+    accessorKey: "client.name",
+    header: "Kunde",
+    enableSorting: true,
+    enableHiding: false,
+    cell: ({ row }) => (
+      <span className="block min-w-[120px]">{row.original.client?.name}</span>
+    ),
+  },
+  {
     accessorKey: "startLocation",
     enableSorting: false,
     enableHiding: false,
@@ -74,12 +83,7 @@ export const columns: ColumnDef<OrderModel>[] = [
     cell: ({ row }) => (
       <div className="dark:text-white text-zinc-900 min-w-[120px]">
         <div className="mt-1">
-          {row.original.price && (
-            <span>
-              {" "}
-              {handleGermanSummary.format(parseInt(row.original.price))}{" "}
-            </span>
-          )}
+          {row.original.price && <span> € {row.original.price} </span>}
           {row.original.paymentOption && (
             <span>({row.original.paymentOption})</span>
           )}

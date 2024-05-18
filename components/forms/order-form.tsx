@@ -143,7 +143,7 @@ export const CreateOrder: React.FC = () => {
       } else {
         insertOrder(
           //@ts-ignore
-          handleOrderForStrapi({ ...data, created_by_id: session?.user?.id }),
+          { ...handleOrderForStrapi(data), created_by_id: session?.user?.id },
         );
       }
       router.refresh();
@@ -384,7 +384,7 @@ export const CreateOrder: React.FC = () => {
                       {...field}
                       onChange={(event) => {
                         const inputValue = event.target.value;
-                        const numericValue = inputValue.replace(/\D/g, "");
+                        const numericValue = inputValue.replace(/[^\d,]/g, "");
                         field.onChange(numericValue);
                       }}
                     />

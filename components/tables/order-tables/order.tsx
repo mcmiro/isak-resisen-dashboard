@@ -37,7 +37,7 @@ export const Order: React.FC = () => {
             </Button>
           </div>
           <Separator />
-          <DataTable searchKey="date" columns={columns} data={orders} />
+          <DataTable searchKey={"date"} columns={columns} data={orders} />
           <div className="flex items-center justify-end space-x-2 py-4">
             <div className="space-x-2">
               <Button
