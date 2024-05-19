@@ -6,6 +6,7 @@ import useOrder from "@/hooks/use-order";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export interface OrderCardProps {
   vehicles?: VehicleModel[];
@@ -16,10 +17,16 @@ const OrderCard = ({ vehicles }: OrderCardProps) => {
 
   const [groupedOrders, setGroupedorders] = useState<any>();
   const [currentOrders, setCurrentOrders] = useState<OrderModel[]>();
+  const [selectedVehicle, setSelectedVehicle] = useState<
+    VehicleModel | undefined
+  >();
 
   function groupOrdersByDate(orders: OrderModel[]) {
     const groupedOrders: any = {};
-    orders.forEach((order) => {
+    const filteredOrders = selectedVehicle
+      ? orders.filter((order) => order.vehicle?.id === selectedVehicle?.id)
+      : orders;
+    filteredOrders.forEach((order) => {
       const date = order.date;
       if (groupedOrders[date]) {
         groupedOrders[date].push(order);
@@ -40,11 +47,28 @@ const OrderCard = ({ vehicles }: OrderCardProps) => {
 
   useEffect(() => {
     currentOrders?.length && setGroupedorders(groupOrdersByDate(currentOrders));
-  }, [currentOrders]);
+  }, [currentOrders, selectedVehicle]);
 
   return (
     <div>
-      {groupedOrders &&
+      <div className="w-full overflow-x-auto">
+        <div className="flex gap-4 mb-4">
+          {vehicles?.length &&
+            vehicles.map((vehicle, index) => (
+              <Button
+                key={index}
+                variant={
+                  selectedVehicle?.id === vehicle.id ? "default" : "secondary"
+                }
+                onClick={() => setSelectedVehicle(vehicle)}
+                className="whitespace-nowrap"
+              >
+                {vehicle.name}
+              </Button>
+            ))}
+        </div>
+      </div>
+      {Object.keys(groupedOrders).length > 0 ? (
         Object.keys(groupedOrders).map((date) => (
           <div key={date}>
             <div
@@ -294,7 +318,12 @@ const OrderCard = ({ vehicles }: OrderCardProps) => {
               </ul>
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <div>
+          <h2 className="font-bold text-xl">Keine Ergebnisse</h2>
+        </div>
+      )}
     </div>
   );
 };

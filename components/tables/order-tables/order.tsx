@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import useOrder from "@/hooks/use-order";
 import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export const Order: React.FC = () => {
   const router = useRouter();
@@ -16,9 +17,15 @@ export const Order: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const pageSize = 10;
 
+  const [searchValue, setSearchValue] = useState<string>("");
+
   useEffect(() => {
     getOrders(page, pageSize);
   }, [page]);
+
+  useEffect(() => {
+    getOrders(1, 200, searchValue);
+  }, [searchValue]);
 
   return (
     <>
@@ -36,8 +43,14 @@ export const Order: React.FC = () => {
               <Plus className="mr-2 h-4 w-4" /> Neue Buchung
             </Button>
           </div>
+          <Input
+            placeholder={`Suchen nach Kunde...`}
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+            className="w-full md:max-w-sm"
+          />
           <Separator />
-          <DataTable searchKey={"date"} columns={columns} data={orders} />
+          <DataTable columns={columns} data={orders} />
           <div className="flex items-center justify-end space-x-2 py-4">
             <div className="space-x-2">
               <Button

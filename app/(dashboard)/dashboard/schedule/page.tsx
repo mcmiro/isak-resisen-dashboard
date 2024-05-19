@@ -5,10 +5,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import useVehicle from "@/hooks/use-vehicle";
+import { useEffect } from "react";
 
 const breadcrumbItems = [{ title: "Fahrplan", link: "/dashboard/schedule" }];
 export default function Page() {
   const router = useRouter();
+  const { vehicles, getVehicles } = useVehicle();
+
+  useEffect(() => {
+    getVehicles();
+  }, []);
 
   return (
     <ScrollArea className="h-full">
@@ -22,7 +29,7 @@ export default function Page() {
             <Plus className="mr-2 h-4 w-4" /> Neue Buchung
           </Button>
         </div>
-        <OrderCard />
+        {vehicles?.length && <OrderCard vehicles={vehicles} />}
       </div>
     </ScrollArea>
   );

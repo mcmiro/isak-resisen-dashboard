@@ -2,7 +2,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { OrderModel } from "@/types/order";
-import { handleGermanDate, handleGermanSummary } from "@/lib/parse-data-german";
+import { handleGermanDate } from "@/lib/parse-data-german";
 
 export const columns: ColumnDef<OrderModel>[] = [
   {

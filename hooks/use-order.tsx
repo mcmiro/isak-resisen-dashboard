@@ -16,6 +16,7 @@ const useOrder = () => {
   const getOrders = async (
     page?: number,
     pageSize?: number,
+    searchString?: string,
   ): Promise<OrderModel[]> => {
     try {
       let params = {
@@ -27,6 +28,7 @@ const useOrder = () => {
         "pagination[pageSize]": pageSize ? pageSize : "2000",
         "pagination[page]": page ? page : 0,
         sort: "date:ASC",
+        "filters[client][name][$containsi]": searchString,
       };
 
       const fetchedData: any = await fetchData("/orders?", params);
