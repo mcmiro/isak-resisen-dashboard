@@ -68,7 +68,7 @@ const OrderCard = ({ vehicles }: OrderCardProps) => {
             ))}
         </div>
       </div>
-      {Object.keys(groupedOrders).length > 0 ? (
+      {groupedOrders && Object.keys(groupedOrders).length > 0 ? (
         Object.keys(groupedOrders).map((date) => (
           <div key={date}>
             <div
