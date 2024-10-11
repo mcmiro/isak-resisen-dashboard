@@ -11,6 +11,7 @@ import { removeLeadingZerosFromDate } from "@/lib/parse-data-german";
 const useOrder = () => {
   const { fetchData, handleOrderFromStrapi } = useStrapiData();
   const [orders, setOrders] = useState<OrderModel[]>();
+  const [nextPageAvailable, setNextPageAvailable] = useState<boolean>(true);
   const [singleOrder, setSingleOrder] = useState<OrderModel | null>(null);
 
   const getOrders = async (
@@ -27,7 +28,7 @@ const useOrder = () => {
         "populate[4]": "updatedBy",
         "pagination[pageSize]": pageSize ? pageSize : "2000",
         "pagination[page]": page ? page : 0,
-        sort: "date:ASC",
+        sort: "date:DESC",
         "filters[client][name][$containsi]": searchString,
       };
 
@@ -65,7 +66,9 @@ const useOrder = () => {
         };
       });
 
-      setOrders(parsedOrders);
+      parsedOrders.length && setOrders(parsedOrders);
+      !parsedOrders.length && setNextPageAvailable(false);
+
       return fetchedData;
     } catch (error) {
       throw error;
@@ -199,6 +202,8 @@ const useOrder = () => {
     handleCurrentMonthOrders,
     handleDailyOrdersWithVehicle,
     orders,
+    nextPageAvailable,
+    setNextPageAvailable,
     singleOrder,
   };
 };

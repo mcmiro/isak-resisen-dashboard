@@ -163,22 +163,26 @@ export const CreateOrder: React.FC = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className={cn("md:inline-block w-full")}>
-            <div className="flex flex-col gap-4 w-full overflow-x-auto h-20">
+            <div className="flex flex-col gap-4 w-full h-20">
               <FormLabel>Fahrzeug</FormLabel>
-              <div className="flex gap-2">
-                {vehicles &&
-                  vehicles?.map((vehicle, index) => (
-                    <Button
-                      key={index}
-                      variant={
-                        selectedVehicle === vehicle.id ? "default" : "secondary"
-                      }
-                      onClick={() => handleVehicle(vehicle.id)}
-                      type="button"
-                    >
-                      {vehicle.name}
-                    </Button>
-                  ))}
+              <div className="w-[calc(100vw-64px)] lg:w-[calc(100vw-264px)]">
+                <div className="overflow-x-auto flex gap-4 mb-4">
+                  {vehicles &&
+                    vehicles?.map((vehicle, index) => (
+                      <Button
+                        key={index}
+                        variant={
+                          selectedVehicle === vehicle.id
+                            ? "default"
+                            : "secondary"
+                        }
+                        onClick={() => handleVehicle(vehicle.id)}
+                        type="button"
+                      >
+                        {vehicle.name}
+                      </Button>
+                    ))}
+                </div>
               </div>
             </div>
             <div className="mt-4">

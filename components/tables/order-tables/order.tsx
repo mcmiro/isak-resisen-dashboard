@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input";
 
 export const Order: React.FC = () => {
   const router = useRouter();
-  const { getOrders, orders } = useOrder();
-
+  const { getOrders, orders, nextPageAvailable, setNextPageAvailable } =
+    useOrder();
   const [page, setPage] = useState<number>(1);
   const pageSize = 10;
 
@@ -24,7 +24,7 @@ export const Order: React.FC = () => {
   }, [page]);
 
   useEffect(() => {
-    getOrders(1, 200, searchValue);
+    getOrders(1, 10, searchValue);
   }, [searchValue]);
 
   return (
@@ -56,7 +56,10 @@ export const Order: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setPage(page - 1)}
+                onClick={() => {
+                  setPage(page - (nextPageAvailable ? 1 : 2));
+                  setNextPageAvailable(true);
+                }}
                 disabled={page === 1}
               >
                 Vorherige
@@ -65,7 +68,7 @@ export const Order: React.FC = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(page + 1)}
-                disabled={orders.length < pageSize}
+                disabled={orders.length < pageSize || !nextPageAvailable}
               >
                 Nächste
               </Button>

@@ -51,8 +51,8 @@ const OrderCard = ({ vehicles }: OrderCardProps) => {
 
   return (
     <div>
-      <div className="w-full overflow-x-auto">
-        <div className="flex gap-4 mb-4">
+      <div className="w-[calc(100vw-64px)] lg:w-[calc(100vw-264px)]">
+        <div className="overflow-x-auto flex gap-4 mb-4">
           {vehicles?.length &&
             vehicles.map((vehicle, index) => (
               <Button

@@ -14,7 +14,9 @@ export default function Sidebar() {
 
   return (
     <nav
-      className={cn(`relative hidden h-screen border-r pt-16 lg:block w-72`)}
+      className={cn(
+        `relative hidden h-screen border-r pt-16 lg:block min-w-[200px]`,
+      )}
     >
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
